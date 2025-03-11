@@ -10,6 +10,8 @@ function App() {
   const [response, setResponse] = useState('');
   const [cookieValue, setCookieValue] = useState('');
 
+  const api = import.meta.env.VITE_API_BLIKON_AUTH;
+  const apiKey = import.meta.env.VITE_BLIKON_AUTH_TOKEN;
   const sendMessageToiOS = () => {
     if (
       window.webkit &&
@@ -24,30 +26,30 @@ function App() {
 
   const setCookie = () => {
     axios.post(
-      'https://authentication-api-v3.blikondev.com/api/v3/cookies/create_custom_cookie',
+      api,
       {
-      cookie_name: 'test_cookie',
-      cookie_value: '567890',
-      http_only: true,
-      secure: false,
-      same_site: 'strict',
-      expiration_minutes: 5,
-      domain: '.vercel.app',
+        cookie_name: 'test_cookie',
+        cookie_value: '567890',
+        http_only: true,
+        secure: false,
+        same_site: 'strict',
+        expiration_minutes: 5,
+        domain: '.vercel.app',
       },
       {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhcGlfdXNlciIsInJvbGVzIjpbImFwaV91c2VyIl0sImV4cCI6MTgwMDIwNDMyOX0.q3p4lv5nTkTQ72LYTWrzkoIYwgQWiEw1mXuTbqsM-p8',
-      },
-      withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization:
+            `Bearer ${apiKey}`,
+        },
+        withCredentials: true,
       }
     )
       .then((response) => {
-      setResponse(response.data);
+        setResponse(response.data);
       })
       .catch((error) => {
-      console.error('Error:', error);
+        console.error('Error:', error);
       });
   };
 
